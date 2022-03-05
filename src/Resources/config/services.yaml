@@ -1,0 +1,45 @@
+services:
+  cors.registry.metrics_collector:
+    class: CoreShop\Component\Registry\ServiceRegistry
+    public: true
+    arguments:
+      - CORS\Bundle\PrometheusBundle\Metrics\MetricsCollectorInterface
+      - 'metrics-collector'
+    tags:
+      - { name: coreshop.registry, type_hint: metricsCollectors }
+
+  CORS\Bundle\PrometheusBundle\Metrics\MetricsCollectorInterface: '@CORS\Bundle\PrometheusBundle\Metrics\CompositeMetricsCollector'
+  CORS\Bundle\PrometheusBundle\Metrics\CompositeMetricsCollector:
+    arguments:
+      - '@cors.registry.metrics_collector'
+      - '%cors_prometheus.namespace%'
+      - '@Prometheus\CollectorRegistry'
+
+  Prometheus\CollectorRegistry:
+    arguments:
+      - '@Prometheus\Storage\Adapter'
+
+  Prometheus\Storage\Adapter:
+    abstract: true
+
+  CORS\Bundle\PrometheusBundle\Controller\MetricsController:
+    arguments:
+      - '@Prometheus\CollectorRegistry'
+    tags:
+      - { name: controller.service_arguments }
+
+  CORS\Bundle\PrometheusBundle\Metrics\PimcoreMetrics:
+    arguments:
+      - '@doctrine.dbal.default_connection'
+    tags:
+      - { name: cors.metrics_collector, type: pimcore }
+
+  CORS\Bundle\PrometheusBundle\Metrics\BundleMetrics:
+    arguments:
+      - '@Pimcore\Extension\Bundle\PimcoreBundleManager'
+    tags:
+      - { name: cors.metrics_collector, type: bundles }
+
+  CORS\Bundle\PrometheusBundle\Metrics\SitesMetrics:
+    tags:
+      - { name: cors.metrics_collector, type: sites }

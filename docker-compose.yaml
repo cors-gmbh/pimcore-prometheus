@@ -1,0 +1,68 @@
+version: '3.4'
+
+networks:
+  cors_dev:
+    external: true
+
+services:
+  db:
+    image: mysql:8
+    working_dir: /application
+    container_name: cors_prometheus
+    networks:
+      - cors_dev
+    volumes:
+      - cors-prometheus-database:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=ROOT
+      - MYSQL_DATABASE=pimcore
+      - MYSQL_USER=pimcore
+      - MYSQL_PASSWORD=pimcore
+
+  php:
+    image: pimcore/pimcore:PHP8.0-apache
+    container_name: cors_prometheus_php
+    networks:
+      - cors_dev
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.cors_prometheus.rule=Host(`cors-prometheus.localhost`)
+      - traefik.http.routers.cors_prometheus.entrypoints=cors_dev
+      - traefik.http.routers.cors_prometheus.tls=true
+      - traefik.http.services.cors_prometheus.loadbalancer.server.port=80
+      - traefik.docker.network=cors_dev
+    volumes:
+      - .:/var/www/html:cached
+    depends_on:
+     - db
+
+  php-debug:
+    image: pimcore/pimcore:PHP8.0-apache-debug
+    container_name: cors_prometheus_php-debug
+    networks:
+      - cors_dev
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.cors_prometheus_debug.rule=Host(`cors-prometheus.localhost`)
+      - traefik.http.routers.cors_prometheus_debug.entrypoints=cors_dev_debug
+      - traefik.http.routers.cors_prometheus_debug.tls=true
+      - traefik.http.services.cors_prometheus_debug.loadbalancer.server.port=80
+      - traefik.docker.network=cors_dev
+    volumes:
+      - .:/var/www/html:cached
+    depends_on:
+      - db
+    environment:
+      - PHP_DEBUG=1
+      - PHP_IDE_CONFIG="serverName=localhost"
+
+  prometheus:
+    image: prom/prometheus
+    networks:
+      - cors_dev
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+volumes:
+  cors-prometheus-database:

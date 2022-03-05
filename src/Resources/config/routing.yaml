@@ -1,0 +1,3 @@
+cors_prometheus:
+    controller: CORS\Bundle\PrometheusBundle\Controller\MetricsController::prometheus
+    path: /metrics

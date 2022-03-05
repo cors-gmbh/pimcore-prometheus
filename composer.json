@@ -1,0 +1,51 @@
+{
+    "name": "cors/prometheus",
+    "type": "pimcore-bundle",
+    "description": "CORS - Prometheus",
+    "keywords": [
+        "coreshop",
+        "pimcore",
+        "ecommerce"
+    ],
+    "homepage": "http://www.cors.gmbh",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "CORS GmbH",
+            "email": "office@cors.gmbh",
+            "homepage": "https://www.cors.gmbh/",
+            "role": "TEAM"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "pimcore/pimcore": "^10.0",
+        "coreshop/registry": "^2.2.9 || ^3.0",
+        "promphp/prometheus_client_php": "^2.4"
+    },
+    "require-dev": {
+        "symplify/easy-coding-standard": "^9.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "CORS\\Bundle\\PrometheusBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "Kernel.php"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        },
+        "pimcore": {
+            "bundles": [
+                "CORS\\Bundle\\PrometheusBundle\\CORSPrometheusBundle"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
