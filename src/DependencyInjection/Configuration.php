@@ -27,11 +27,10 @@ final class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('cors_prometheus');
         $rootNode = $treeBuilder->getRootNode();
 
-        $supportedTypes = ['in_memory', 'apcu', /*'redis'*/];
+        $supportedTypes = ['in_memory', 'apcu'/*'redis'*/];
 
         $rootNode
             ->children()
-                ->scalarNode('namespace')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('type')
                     ->validate()
                         ->ifNotInArray($supportedTypes)

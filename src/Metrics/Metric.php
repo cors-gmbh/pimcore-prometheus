@@ -24,8 +24,7 @@ class Metric
         protected array $values,
         protected string $help,
         protected float $gaugeValue = 1
-    )
-    {
+    ) {
     }
 
     public function getName(): string

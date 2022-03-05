@@ -12,7 +12,6 @@ services:
   CORS\Bundle\PrometheusBundle\Metrics\CompositeMetricsCollector:
     arguments:
       - '@cors.registry.metrics_collector'
-      - '%cors_prometheus.namespace%'
       - '@Prometheus\CollectorRegistry'
 
   Prometheus\CollectorRegistry:

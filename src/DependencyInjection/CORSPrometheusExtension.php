@@ -29,9 +29,8 @@ final class CORSPrometheusExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $container->setParameter('cors_prometheus.namespace', $config['namespace']);
         $container->setParameter('cors_prometheus.type', $config['type']);
-        
+
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yaml');
     }

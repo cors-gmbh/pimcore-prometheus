@@ -25,11 +25,8 @@ final class CompositeMetricsCollector implements MetricsCollectorInterface
 {
     public function __construct(
         protected ServiceRegistryInterface $collectors,
-        protected string $namespace,
         protected CollectorRegistry $collectorRegistry
-    )
-    {
-
+    ) {
     }
 
     public function collect(): array
@@ -50,9 +47,9 @@ final class CompositeMetricsCollector implements MetricsCollectorInterface
                         'cors_pimcore',
                         $metric->getName(),
                         $metric->getHelp(),
-                        array_merge(['namespace'], array_keys($metric->getValues()))
+                        array_keys($metric->getValues())
                     );
-                    $gauge->set($metric->getGaugeValue(), array_merge([$this->namespace], array_values($metric->getValues())));
+                    $gauge->set($metric->getGaugeValue(), array_values($metric->getValues()));
                 }
             }
         }

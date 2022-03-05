@@ -31,7 +31,7 @@ class SitesMetrics implements MetricsCollectorInterface
 
         foreach ($siteListing->getSites() as $site) {
             $metrics[] = new Metric(
-                'site_' . str_replace('.', '_', Container::underscore($site->getMainDomain())),
+                'site_'.str_replace('.', '_', Container::underscore($site->getMainDomain())),
                 [
                     'type' => 'pimcore_site',
                     'main_domain' => $site->getMainDomain(),
@@ -39,7 +39,7 @@ class SitesMetrics implements MetricsCollectorInterface
                     'redirect_to_main_domain' => $site->getRedirectToMainDomain(),
                     'root_document' => $site->getRootDocument()?->getKey(),
                 ],
-                'Site ' . $site->getMainDomain()
+                'Site '.$site->getMainDomain()
             );
         }
 

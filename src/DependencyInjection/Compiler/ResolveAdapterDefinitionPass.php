@@ -40,6 +40,5 @@ class ResolveAdapterDefinitionPass implements CompilerPassInterface
         $definition = $container->getDefinition(Adapter::class);
         $definition->setAbstract(false);
         $definition->setClass($adapterClasses[$container->getParameter('cors_prometheus.type')]);
-
     }
 }
