@@ -31,26 +31,17 @@ final class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('namespace')
-                ->isRequired()
-                ->cannotBeEmpty()
-                ->validate()
-                // see: https://github.com/artprima/prometheus-metrics-bundle/issues/32
-                    ->ifTrue(function ($s) {
-                        return 1 !== preg_match('/^[a-zA-Z_:][a-zA-Z0-9_:]*$/', $s);
-                    })
-                    ->thenInvalid('Invalid namespace. Make sure it matches the following regex: ^[a-zA-Z_:][a-zA-Z0-9_:]*$')
+                ->scalarNode('namespace')->isRequired()->cannotBeEmpty()->end()
+                ->scalarNode('type')
+                    ->validate()
+                        ->ifNotInArray($supportedTypes)
+                        ->thenInvalid('The type %s is not supported. Please choose one of '.json_encode($supportedTypes))
                     ->end()
+                    ->defaultValue('in_memory')
+                    ->cannotBeEmpty()
                 ->end()
-            ->scalarNode('type')
-                ->validate()
-                    ->ifNotInArray($supportedTypes)
-                    ->thenInvalid('The type %s is not supported. Please choose one of '.json_encode($supportedTypes))
-                ->end()
-                ->defaultValue('in_memory')
-                ->cannotBeEmpty()
             ->end()
-        ->end();
+        ;
 
         return $treeBuilder;
     }
