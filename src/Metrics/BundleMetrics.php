@@ -58,7 +58,12 @@ class BundleMetrics implements MetricsCollectorInterface
                 $method->setAccessible(true);
                 $composerPackage = $method->invoke($bundle);
 
-                $composerVersion = Versions::getVersion($composerPackage);
+                try {
+                    $composerVersion = Versions::getVersion($composerPackage);
+                }
+                catch (\Exception $ex) {
+                    //Ignore Exception
+                }
 
                 $method->setAccessible(false);
             } else {
