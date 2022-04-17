@@ -60,8 +60,7 @@ class BundleMetrics implements MetricsCollectorInterface
 
                 try {
                     $composerVersion = Versions::getVersion($composerPackage);
-                }
-                catch (\Exception $ex) {
+                } catch (\Exception $ex) {
                     //Ignore Exception
                 }
 
@@ -113,7 +112,7 @@ class BundleMetrics implements MetricsCollectorInterface
                     'state' => http_build_query($this->bundleManager->getState($bundle), '', ', '),
                     'composer_package' => $composerPackage,
                     'composer_version' => $composerVersion,
-                    'exporter' => 'cors'
+                    'exporter' => 'cors',
                 ],
                 'Bundle '.$bundle->getNiceName()
             );
