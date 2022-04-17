@@ -42,12 +42,12 @@ class PimcoreMetrics implements MetricsCollectorInterface
         }
 
         $metrics = [
-            new Metric('pimcore_version', ['type' => 'pimcore_version', 'version' => Version::getVersion()], 'Version of Pimcore'),
-            new Metric('mysql_version', ['type' => 'pimcore_mysql_version', 'version' => $mysqlVersion], 'Version of MySQL'),
+            new Metric('pimcore_version', ['exporter' => 'cors', 'type' => 'pimcore_version', 'version' => Version::getVersion()], 'Version of Pimcore'),
+            new Metric('mysql_version', ['exporter' => 'cors', 'type' => 'pimcore_mysql_version', 'version' => $mysqlVersion], 'Version of MySQL'),
         ];
 
         foreach ($tables as $table) {
-            $metrics[] = new Metric('table_'.$table['name'], ['type' => 'pimcore_tables'], 'Table of Pimcore', (int) $table['rows']);
+            $metrics[] = new Metric('table_'.$table['name'], ['exporter' => 'cors', 'type' => 'pimcore_tables'], 'Table of Pimcore', (int) $table['rows']);
         }
 
         return $metrics;

@@ -38,6 +38,7 @@ class SitesMetrics implements MetricsCollectorInterface
                     'domains' => implode(', ', $site->getDomains()),
                     'redirect_to_main_domain' => $site->getRedirectToMainDomain(),
                     'root_document' => $site->getRootDocument()?->getKey(),
+                    'exporter' => 'cors'
                 ],
                 'Site '.$site->getMainDomain()
             );
