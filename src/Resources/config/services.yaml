@@ -13,6 +13,7 @@ services:
     arguments:
       - '@cors.registry.metrics_collector'
       - '@Prometheus\CollectorRegistry'
+      - '%kernel.environment%'
 
   Prometheus\CollectorRegistry:
     arguments:

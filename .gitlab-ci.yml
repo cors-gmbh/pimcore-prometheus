@@ -1,12 +1,19 @@
-image: pimcore/pimcore:PHP8.0-cli
-
-cache:
-  paths:
-    - vendor/
-
-before_script:
-  - composer install
-
 test:
+  stage: test
+  image: git.e-conomix.at:5050/cors/docker/php-alpine-cli:8.0-2.2.0
+  variables:
+    DATABASE_HOST: ""
+    DATABASE_PORT: ""
+    DATABASE_USER: ""
+    DATABASE_PASSWORD: ""
+    DATABASE_NAME: ""
+    DATABASE_VERSION: "8.0.26"
+  cache:
+    paths:
+      - vendor/
+  before_script:
+    - composer install
   script:
     - vendor/bin/ecs check src
+  tags:
+    - cors

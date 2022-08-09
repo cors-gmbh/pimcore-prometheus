@@ -25,7 +25,8 @@ final class CompositeMetricsCollector implements MetricsCollectorInterface
 {
     public function __construct(
         protected ServiceRegistryInterface $collectors,
-        protected CollectorRegistry $collectorRegistry
+        protected CollectorRegistry $collectorRegistry,
+        protected string $env,
     ) {
     }
 
@@ -42,14 +43,18 @@ final class CompositeMetricsCollector implements MetricsCollectorInterface
                     // the trick with try/catch lets us setting the instance name only once
                     $this->collectorRegistry->getGauge('cors_pimcore', $metric->getName());
                 } catch (MetricNotFoundException $e) {
+                    $values = array_merge([
+                        'env' => $this->env,
+                    ], $metric->getValues());
+
                     /** @noinspection PhpUnhandledExceptionInspection */
                     $gauge = $this->collectorRegistry->registerGauge(
                         'cors_pimcore',
                         $metric->getName(),
                         $metric->getHelp(),
-                        array_keys($metric->getValues())
+                        array_keys($values)
                     );
-                    $gauge->set($metric->getGaugeValue(), array_values($metric->getValues()));
+                    $gauge->set($metric->getGaugeValue(), array_values($values));
                 }
             }
         }
