@@ -98,6 +98,7 @@ class BundleMetrics implements MetricsCollectorInterface
                 'bundle_'.$name,
                 [
                     'type' => 'pimcore_bundle',
+                    'name' => $name,
                     'version' => $bundle->getVersion(),
                     'description' => $bundle->getDescription(),
                     'class' => $bundleClass,
