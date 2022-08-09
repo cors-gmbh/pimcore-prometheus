@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 namespace CORS\Bundle\PrometheusBundle\Metrics;
 
-use PackageVersions\Versions;
+use Composer\InstalledVersions;
 use Pimcore\Extension\Bundle\PimcoreBundleInterface;
 use Pimcore\Extension\Bundle\PimcoreBundleManager;
 use Symfony\Component\DependencyInjection\Container;
@@ -59,7 +59,7 @@ class BundleMetrics implements MetricsCollectorInterface
                 $composerPackage = $method->invoke($bundle);
 
                 try {
-                    $composerVersion = Versions::getVersion($composerPackage);
+                    $composerVersion = InstalledVersions::getVersion($composerPackage);
                 } catch (\Exception $ex) {
                     //Ignore Exception
                 }

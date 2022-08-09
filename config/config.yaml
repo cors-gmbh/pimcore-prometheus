@@ -4,4 +4,3 @@ imports:
 
 cors_prometheus:
     type: in_memory # possible values: in_memory, apcu, redis
-    namespace: test
