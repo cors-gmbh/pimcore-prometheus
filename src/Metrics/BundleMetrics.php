@@ -41,17 +41,16 @@ class BundleMetrics implements MetricsCollectorInterface
         foreach ($this->bundleManager->getAvailableBundles() as $bundleClass) {
             $enabled = $this->bundleManager->isEnabled($bundleClass);
 
-            /** @var PimcoreBundleInterface $bundle */
-            $bundle = null;
-
-            if ($enabled) {
-                $bundle = $this->bundleManager->getActiveBundle($bundleClass, false);
+            if (!$enabled) {
+                continue;
             }
+            /** @var PimcoreBundleInterface $bundle */
+            $bundle = $this->bundleManager->getActiveBundle($bundleClass, false);
 
             $composerVersion = null;
             $composerPackage = null;
 
-            if ($enabled && method_exists($bundle, 'getComposerPackageName')) {
+            if (method_exists($bundle, 'getComposerPackageName')) {
                 $reflection = new \ReflectionClass($bundle);
                 $method = $reflection->getMethod('getComposerPackageName');
 
@@ -66,7 +65,7 @@ class BundleMetrics implements MetricsCollectorInterface
 
                 $method->setAccessible(false);
             } else {
-                foreach ($composerPackages as $package) {
+                foreach ($composerPackages['packages'] as $package) {
                     if (!isset($package['extra'])) {
                         continue;
                     }
@@ -83,14 +82,10 @@ class BundleMetrics implements MetricsCollectorInterface
                         if ($pimcoreBundle === $bundleClass) {
                             $composerPackage = $package['name'];
                             $composerVersion = $package['version_normalized'];
-                            break;
+                            break 2;
                         }
                     }
                 }
-            }
-
-            if (!$enabled) {
-                continue;
             }
 
             $name = Container::underscore($bundle->getName());
