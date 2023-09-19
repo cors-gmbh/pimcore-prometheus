@@ -19,7 +19,7 @@
     ],
     "require": {
         "php": ">=8.0",
-        "pimcore/pimcore": "^10.4",
+        "pimcore/pimcore": "^10.4 || ^11.0",
         "coreshop/registry": "^2.2.9 || ^3.0",
         "promphp/prometheus_client_php": "^2.4"
     },
