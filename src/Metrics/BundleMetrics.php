@@ -18,7 +18,6 @@ declare(strict_types=1);
 namespace CORS\Bundle\PrometheusBundle\Metrics;
 
 use Composer\InstalledVersions;
-use Pimcore\Extension\Bundle\PimcoreBundleInterface;
 use Pimcore\Extension\Bundle\PimcoreBundleManager;
 use Symfony\Component\DependencyInjection\Container;
 
@@ -37,16 +36,8 @@ class BundleMetrics implements MetricsCollectorInterface
         if (file_exists($composerJson)) {
             $composerPackages = json_decode(file_get_contents($composerJson), true);
         }
-
-        foreach ($this->bundleManager->getAvailableBundles() as $bundleClass) {
-            $enabled = $this->bundleManager->isEnabled($bundleClass);
-
-            if (!$enabled) {
-                continue;
-            }
-            /** @var PimcoreBundleInterface $bundle */
-            $bundle = $this->bundleManager->getActiveBundle($bundleClass, false);
-
+        /* @psalm-suppress InternalMethod **/
+        foreach ($this->bundleManager->getActiveBundles() as $bundle) {
             $composerVersion = null;
             $composerPackage = null;
 
@@ -79,7 +70,7 @@ class BundleMetrics implements MetricsCollectorInterface
                     }
 
                     foreach ($package['extra']['pimcore']['bundles'] as $pimcoreBundle) {
-                        if ($pimcoreBundle === $bundleClass) {
+                        if ($pimcoreBundle === get_class($bundle)) {
                             $composerPackage = $package['name'];
                             $composerVersion = $package['version_normalized'];
                             break 2;
@@ -89,6 +80,7 @@ class BundleMetrics implements MetricsCollectorInterface
             }
 
             $name = Container::underscore($bundle->getName());
+            /* @psalm-suppress InternalMethod **/
             $metrics[] = new Metric(
                 'bundle_'.$name,
                 [
@@ -96,8 +88,8 @@ class BundleMetrics implements MetricsCollectorInterface
                     'name' => $name,
                     'version' => $composerVersion ? $bundle->getVersion() : null,
                     'description' => $bundle->getDescription(),
-                    'class' => $bundleClass,
-                    'short_name' => $this->getShortClassName($bundleClass),
+                    'class' => get_class($bundle),
+                    'short_name' => $this->getShortClassName(get_class($bundle)),
                     'installed' => $this->bundleManager->isInstalled($bundle),
                     'can_be_installed' => $this->bundleManager->canBeInstalled($bundle),
                     'can_be_uninstalled' => $this->bundleManager->canBeUninstalled($bundle),
@@ -105,7 +97,6 @@ class BundleMetrics implements MetricsCollectorInterface
                         $this->bundleManager,
                         'canBeUpdated'
                     ) ? $this->bundleManager->canBeUpdated($bundle) : false,
-                    'state' => http_build_query($this->bundleManager->getState($bundle), '', ', '),
                     'composer_package' => $composerPackage,
                     'composer_version' => $composerVersion,
                     'exporter' => 'cors',

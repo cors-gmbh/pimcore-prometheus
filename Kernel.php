@@ -17,11 +17,13 @@ declare(strict_types=1);
 
 use Pimcore\HttpKernel\BundleCollection\BundleCollection;
 use Pimcore\Kernel as PimcoreKernel;
+use Pimcore\Bundle\AdminBundle\PimcoreAdminBundle;
 
 class Kernel extends PimcoreKernel
 {
-    public function registerBundlesToCollection(BundleCollection $collection)
+    public function registerBundlesToCollection(BundleCollection $collection): void
     {
         $collection->addBundle(new \CORS\Bundle\PrometheusBundle\CORSPrometheusBundle());
+        $collection->addBundle(new PimcoreAdminBundle(), 60);
     }
 }

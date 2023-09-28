@@ -29,7 +29,7 @@ class PimcoreMetrics implements MetricsCollectorInterface
     public function collect(): array
     {
         try {
-            $tables = $this->connection->fetchAll('SELECT TABLE_NAME as name,TABLE_ROWS as `rows` from information_schema.TABLES
+            $tables = $this->connection->fetchAllAssociative('SELECT TABLE_NAME as name,TABLE_ROWS as `rows` from information_schema.TABLES
                 WHERE TABLE_ROWS IS NOT NULL AND TABLE_SCHEMA = ?', [$this->connection->getDatabase()]);
         } catch (\Exception $e) {
             $tables = [];
@@ -41,6 +41,10 @@ class PimcoreMetrics implements MetricsCollectorInterface
             $mysqlVersion = null;
         }
 
+        /**
+         * @psalm-suppress InternalClass
+         * @psalm-suppress InternalMethod
+         * **/
         $metrics = [
             new Metric('pimcore_version', ['exporter' => 'cors', 'type' => 'pimcore_version', 'version' => Version::getVersion()], 'Version of Pimcore'),
             new Metric('mysql_version', ['exporter' => 'cors', 'type' => 'pimcore_mysql_version', 'version' => $mysqlVersion], 'Version of MySQL'),

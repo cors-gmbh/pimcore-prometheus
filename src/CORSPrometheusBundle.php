@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class CORSPrometheusBundle extends AbstractPimcoreBundle
 {
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new ResolveAdapterDefinitionPass());
         $container->addCompilerPass(new MetricsCollectorPass());

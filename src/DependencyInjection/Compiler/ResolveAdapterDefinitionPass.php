@@ -37,8 +37,14 @@ class ResolveAdapterDefinitionPass implements CompilerPassInterface
             //'redis' => Redis::class,
         ];
 
+        $type = (string) $container->getParameter('cors_prometheus.type');
+
+        if (!isset($adapterClasses[$type])) {
+            throw new \InvalidArgumentException('Invalid cors_prometheus.type value.');
+        }
+
         $definition = $container->getDefinition(Adapter::class);
         $definition->setAbstract(false);
-        $definition->setClass($adapterClasses[$container->getParameter('cors_prometheus.type')]);
+        $definition->setClass($adapterClasses[$type]);
     }
 }
