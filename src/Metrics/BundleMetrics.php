@@ -36,7 +36,8 @@ class BundleMetrics implements MetricsCollectorInterface
         if (file_exists($composerJson)) {
             $composerPackages = json_decode(file_get_contents($composerJson), true);
         }
-        /* @psalm-suppress InternalMethod **/
+
+        /** @psalm-suppress InternalMethod **/
         foreach ($this->bundleManager->getActiveBundles() as $bundle) {
             $composerVersion = null;
             $composerPackage = null;
@@ -80,7 +81,8 @@ class BundleMetrics implements MetricsCollectorInterface
             }
 
             $name = Container::underscore($bundle->getName());
-            /* @psalm-suppress InternalMethod **/
+
+            /** @psalm-suppress InternalMethod **/
             $metrics[] = new Metric(
                 'bundle_'.$name,
                 [
