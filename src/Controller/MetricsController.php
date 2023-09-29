@@ -27,7 +27,7 @@ class MetricsController
     public function prometheus(
         CollectorRegistry $collectionRegistry,
         MetricsCollectorInterface $collector
-    ) {
+    ): Response {
         $collector->collect();
 
         $response = (new RenderTextFormat())->render($collectionRegistry->getMetricFamilySamples());

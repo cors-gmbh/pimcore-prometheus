@@ -110,7 +110,7 @@ class BundleMetrics implements MetricsCollectorInterface
         return $metrics;
     }
 
-    protected function getShortClassName(string $className)
+    protected function getShortClassName(string $className): string
     {
         if (!class_exists($className)) {
             throw new \InvalidArgumentException(sprintf('Class "%s" does not exist', $className));
