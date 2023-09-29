@@ -16,6 +16,6 @@ test:
   script:
     - vendor/bin/ecs check src --fix
     - vendor/bin/phpstan analyse src
-    - vendor/bin/psalm src
+    - vendor/bin/psalm --error-level=error src
   tags:
     - cors
