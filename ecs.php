@@ -17,7 +17,14 @@ declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
+    $parameters = $containerConfigurator->parameters();
+    $parameters->set('skip', [
+        // Add the fixers you want to skip here
+        PhpdocToCommentFixer::class => null,
+    ]);
+
     $containerConfigurator->import(SetList::SYMFONY);
 };
