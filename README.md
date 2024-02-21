@@ -71,3 +71,15 @@ final class MetricsListener implements EventSubscriberInterface
     }
 }
 ```
+
+### Storage
+
+Also make sure you have some kind of storage to temporarily store the metrics. We use a Redis instance for that.
+
+```yaml
+    Prometheus\Storage\Adapter:
+        factory: [ 'CORS\Bundle\PrometheusBundle\StorageFactory', 'create' ]
+        arguments:
+            $dsn: 'redis://redis:6379'
+
+```
