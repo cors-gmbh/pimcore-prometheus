@@ -17,5 +17,4 @@ use Symfony\Component\Messenger\Stamp\StampInterface;
 
 final class PrometheusStamp implements StampInterface
 {
-    
 }

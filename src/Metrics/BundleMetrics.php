@@ -42,9 +42,10 @@ class BundleMetrics implements MetricsCollectorInterface
 
         /**
          * @var array $composerPackages
+         *
          * @phpstan-ignore-next-line
          */
-        $composerPackages = json_decode($composerJsonContent, true, 512, JSON_THROW_ON_ERROR);
+        $composerPackages = json_decode($composerJsonContent, true, 512, \JSON_THROW_ON_ERROR);
 
         if (!isset($composerPackages['packages'])) {
             return [];
