@@ -1,13 +1,13 @@
 name: Static Tests
 on:
   push:
-    branches: [ main ]
+    branches: [ 11.x ]
     paths-ignore:
       - 'docs/**'
       - '.github/workflows/docs.yaml'
       - 'README.md'
   pull_request:
-    branches: [ main ]
+    branches: [ 11.x ]
     paths-ignore:
       - 'docs/**'
       - '.github/workflows/docs.yaml'
