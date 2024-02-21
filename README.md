@@ -1,3 +1,6 @@
+![CORS.gmbh](https://github.com/cors-gmbh/.github/raw/main/cors-we-want-you-3.jpg)
+
+
 CORS Pimcore Prometheus
 --------
 
@@ -8,7 +11,7 @@ Expose Pimcore Metrics to Prometheus. This includes the following metrics:
  - Tables and row Counts
  - Symfony Messenger Processed Messages Count
 
-# Installation
+### Installation
 
 1. Install and enable the bundle
 ```bash
