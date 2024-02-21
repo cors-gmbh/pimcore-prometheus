@@ -18,7 +18,7 @@ use Symfony\Component\Cache\Adapter\AbstractAdapter;
 
 class StorageFactory
 {
-    public static function create(string $dsn): \Prometheus\Storage\Adapter
+    public static function create(string $dsn): Redis
     {
         if (!str_starts_with($dsn, 'redis:')) {
             throw new \InvalidArgumentException(sprintf('Unsupported DSN "%s". Only Redis is supported', $dsn));
@@ -28,6 +28,9 @@ class StorageFactory
 
         Redis::setPrefix('prom_');
 
+        /**
+         * @phpstan-ignore-next-line
+         */
         return Redis::fromExistingConnection($connection);
     }
 }
