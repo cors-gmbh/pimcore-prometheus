@@ -20,7 +20,7 @@ services:
       - '@Prometheus\Storage\Adapter'
 
   Prometheus\Storage\Adapter:
-    abstract: true
+    class: 'Prometheus\Storage\InMemory'
 
   CORS\Bundle\PrometheusBundle\Controller\MetricsController:
     arguments:

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace CORS\Bundle\PrometheusBundle;
 
 use CORS\Bundle\PrometheusBundle\DependencyInjection\Compiler\MetricsCollectorPass;
-use CORS\Bundle\PrometheusBundle\DependencyInjection\Compiler\ResolveAdapterDefinitionPass;
 use Pimcore\Extension\Bundle\AbstractPimcoreBundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -22,7 +21,6 @@ class CORSPrometheusBundle extends AbstractPimcoreBundle
 {
     public function build(ContainerBuilder $container): void
     {
-        $container->addCompilerPass(new ResolveAdapterDefinitionPass());
         $container->addCompilerPass(new MetricsCollectorPass());
     }
 
