@@ -3,13 +3,21 @@ version: '3.4'
 networks:
   cors_dev:
     external: true
+  cors_prometheus:
+    external: false
 
 services:
+  redis:
+    image: redis:alpine
+    networks:
+      - cors_prometheus
+
   db:
     image: mysql:8
     container_name: cors_prometheus
     networks:
       - cors_dev
+      - cors_prometheus
     working_dir: /application
     volumes:
       - cors-prometheus-database:/var/lib/mysql
@@ -31,6 +39,7 @@ services:
       - traefik.docker.network=cors_dev
     networks:
       - cors_dev
+      - cors_prometheus
     volumes:
       - ./:/var/www/html:ro
       - ./.docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
@@ -45,6 +54,7 @@ services:
     entrypoint: docker-php-entrypoint
     networks:
       - cors_dev
+      - cors_prometheus
     depends_on:
       - db
     volumes:
@@ -65,6 +75,7 @@ services:
       - ./.docker/php.ini:/usr/local/etc/php/conf.d/docker-php-ext-additional.ini:ro
     networks:
       - cors_dev
+      - cors_prometheus
     environment:
       - PHP_IDE_CONFIG=serverName=localhost
       - COMPOSER_AUTH=${COMPOSER_AUTH:-}

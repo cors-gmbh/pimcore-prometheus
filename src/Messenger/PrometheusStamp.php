@@ -11,12 +11,11 @@ declare(strict_types=1);
  * @license    https://www.cors.gmbh/license GPLv3
  */
 
-namespace CORS\Bundle\PrometheusBundle\Metrics;
+namespace CORS\Bundle\PrometheusBundle\Messenger;
 
-interface MetricsCollectorInterface
+use Symfony\Component\Messenger\Stamp\StampInterface;
+
+final class PrometheusStamp implements StampInterface
 {
-    /**
-     * @return Metric[]
-     */
-    public function collect(): array;
+    
 }

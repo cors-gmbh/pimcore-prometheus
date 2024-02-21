@@ -2,17 +2,13 @@
 
 declare(strict_types=1);
 
-/**
- * CORS GmbH.
+/*
+ * CORS GmbH
  *
- * This source file is available under two different licenses:
- * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Commercial License (PCL)
- * Full copyright and license information is available in
- * LICENSE.md which is distributed with this source code.
+ * This software is available under the GNU General Public License version 3 (GPLv3).
  *
  * @copyright  Copyright (c) CORS GmbH (https://www.cors.gmbh)
- * @license    https://www.cors.gmbh/license     GPLv3 and PCL
+ * @license    https://www.cors.gmbh/license GPLv3
  */
 
 namespace CORS\Bundle\PrometheusBundle\Metrics;
@@ -52,7 +48,7 @@ final class CompositeMetricsCollector implements MetricsCollectorInterface
                         'cors_pimcore',
                         $metric->getName(),
                         $metric->getHelp(),
-                        array_keys($values)
+                        array_keys($values),
                     );
                     $gauge->set($metric->getGaugeValue(), array_values($values));
                 }

@@ -2,17 +2,13 @@
 
 declare(strict_types=1);
 
-/**
- * CORS GmbH.
+/*
+ * CORS GmbH
  *
- * This source file is available under two different licenses:
- * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Commercial License (PCL)
- * Full copyright and license information is available in
- * LICENSE.md which is distributed with this source code.
+ * This software is available under the GNU General Public License version 3 (GPLv3).
  *
  * @copyright  Copyright (c) CORS GmbH (https://www.cors.gmbh)
- * @license    https://www.cors.gmbh/license     GPLv3 and PCL
+ * @license    https://www.cors.gmbh/license GPLv3
  */
 
 namespace CORS\Bundle\PrometheusBundle\Metrics;
@@ -22,8 +18,9 @@ use Pimcore\Version;
 
 class PimcoreMetrics implements MetricsCollectorInterface
 {
-    public function __construct(protected Connection $connection)
-    {
+    public function __construct(
+        protected Connection $connection,
+    ) {
     }
 
     public function collect(): array
@@ -51,7 +48,11 @@ class PimcoreMetrics implements MetricsCollectorInterface
         ];
 
         foreach ($tables as $table) {
-            $metrics[] = new Metric('table_'.$table['name'], ['exporter' => 'cors', 'type' => 'pimcore_tables'], 'Table of Pimcore', (int) $table['rows']);
+            /**
+             * @var string $rows
+             */
+            $rows = $table['rows'];
+            $metrics[] = new Metric('table_' . $table['name'], ['exporter' => 'cors', 'type' => 'pimcore_tables'], 'Table of Pimcore', (int) $rows);
         }
 
         return $metrics;

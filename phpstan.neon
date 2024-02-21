@@ -1,0 +1,47 @@
+parameters:
+    reportUnmatchedIgnoredErrors: false
+    level: 9
+    paths:
+     - src
+
+#    scanDirectories:
+#        - var/classes/DataObject
+
+    symfony:
+        container_xml_path: var/cache/dev/KernelDevDebugContainer.xml
+
+    excludePaths:
+        # Makes PHPStan crash
+        - '**/DependencyInjection/Configuration.php'
+        - '**/Migrations/Version*.php'
+        # Ignore cause the file uses external dependencies and will only be used if those dependencies are met
+        - '**/ProcessManager/IndexListener.php'
+        - '**/ProcessManager/IndexProcess.php'
+        - '**/DataHub/*.php'
+        - '**/CoreExtension/*.php'
+        - '**/Model/*.php'
+
+    ignoreErrors:
+        # Magic calls
+        - '/Call to an undefined method Faker\\Generator::/'
+        - '/Access to an undefined property Faker\\Generator::/'
+        - '/Constant PIMCORE_CONFIGURATION_DIRECTORY not found./'
+        - '/Constant PIMCORE_CLASS_DIRECTORY not found./'
+        - '/Constant PIMCORE_WEB_ROOT not found./'
+        - '/Constant PIMCORE_DEVMODE not found./'
+        - '/Constant PIMCORE_PROJECT_ROOT not found./'
+        - '/Constant PIMCORE_SYSTEM_TEMP_DIRECTORY not found./'
+
+        - '/Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::children\(\)/'
+        - '/Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface/'
+        - '/Call to an undefined method Pimcore\\Model\\\(.*\)::save\(\)./'
+        - '/Call to an undefined method Pimcore\\Model\\\(.*\)::delete\(\)./'
+        - '/Method Pimcore\\Model\\DataObject\\Concrete::getLatestVersion\(\)(.*)/'
+        - '/Symfony\\Contracts\\EventDispatcher\\EventDispatcherInterface::dispatch\(\)/'
+        - '/(.*) return type has no value type specified in iterable type array/'
+        - '/Method (.*) has parameter \$(.*) with no value type specified in iterable type array/'
+
+
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+

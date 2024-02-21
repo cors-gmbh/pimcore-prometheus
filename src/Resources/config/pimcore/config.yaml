@@ -1,0 +1,9 @@
+framework:
+  messenger:
+    buses:
+      coreshop.bus:
+        middleware:
+          - 'CORS\Bundle\PrometheusBundle\Messenger\PrometheusMiddleware'
+      messenger.bus.pimcore-core:
+        middleware:
+          - 'CORS\Bundle\PrometheusBundle\Messenger\PrometheusMiddleware'

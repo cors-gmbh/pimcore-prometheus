@@ -43,3 +43,7 @@ services:
   CORS\Bundle\PrometheusBundle\Metrics\SitesMetrics:
     tags:
       - { name: cors.metrics_collector, type: sites }
+
+  CORS\Bundle\PrometheusBundle\Messenger\PrometheusMiddleware:
+    arguments:
+      - '@Prometheus\CollectorRegistry'
