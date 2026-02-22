@@ -18,7 +18,7 @@ use Prometheus\CollectorRegistry;
 use Prometheus\RenderTextFormat;
 use Symfony\Component\HttpFoundation\Response;
 
-class MetricsController
+final class MetricsController
 {
     public function prometheus(
         CollectorRegistry $collectionRegistry,

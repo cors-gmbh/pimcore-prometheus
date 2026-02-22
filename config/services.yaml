@@ -10,4 +10,4 @@ services:
     Prometheus\Storage\Adapter:
         factory: [ 'CORS\Bundle\PrometheusBundle\StorageFactory', 'create' ]
         arguments:
-            $dsn: 'redis://redis:6379'
+            $dsn: 'redis://redis:6379?auth=password'

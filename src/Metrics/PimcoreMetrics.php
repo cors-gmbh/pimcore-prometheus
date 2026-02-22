@@ -16,13 +16,14 @@ namespace CORS\Bundle\PrometheusBundle\Metrics;
 use Doctrine\DBAL\Connection;
 use Pimcore\Version;
 
-class PimcoreMetrics implements MetricsCollectorInterface
+final class PimcoreMetrics implements MetricsCollectorInterface
 {
     public function __construct(
         protected Connection $connection,
     ) {
     }
 
+    #[\Override]
     public function collect(): array
     {
         try {

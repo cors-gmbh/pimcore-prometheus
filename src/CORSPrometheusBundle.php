@@ -19,16 +19,19 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class CORSPrometheusBundle extends AbstractPimcoreBundle
 {
+    #[\Override]
     public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new MetricsCollectorPass());
     }
 
+    #[\Override]
     public function getNiceName(): string
     {
         return 'CORS - Prometheus Bundle';
     }
 
+    #[\Override]
     public function getDescription(): string
     {
         return 'CORS Prometheus Bundle';

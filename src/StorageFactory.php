@@ -16,7 +16,7 @@ namespace CORS\Bundle\PrometheusBundle;
 use Prometheus\Storage\Redis;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
 
-class StorageFactory
+final class StorageFactory
 {
     public static function create(string $dsn): Redis
     {

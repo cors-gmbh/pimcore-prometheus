@@ -26,6 +26,7 @@ final class CompositeMetricsCollector implements MetricsCollectorInterface
     ) {
     }
 
+    #[\Override]
     public function collect(): array
     {
         foreach ($this->collectors->all() as $collector) {

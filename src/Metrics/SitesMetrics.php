@@ -16,8 +16,9 @@ namespace CORS\Bundle\PrometheusBundle\Metrics;
 use Pimcore\Model\Site;
 use Symfony\Component\DependencyInjection\Container;
 
-class SitesMetrics implements MetricsCollectorInterface
+final class SitesMetrics implements MetricsCollectorInterface
 {
+    #[\Override]
     public function collect(): array
     {
         $siteListing = new Site\Listing();

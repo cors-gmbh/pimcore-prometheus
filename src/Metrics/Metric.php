@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace CORS\Bundle\PrometheusBundle\Metrics;
 
-class Metric
+final class Metric
 {
     public function __construct(
         protected string $name,

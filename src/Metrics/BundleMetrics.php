@@ -17,13 +17,14 @@ use Composer\InstalledVersions;
 use Pimcore\Extension\Bundle\PimcoreBundleManager;
 use Symfony\Component\DependencyInjection\Container;
 
-class BundleMetrics implements MetricsCollectorInterface
+final class BundleMetrics implements MetricsCollectorInterface
 {
     public function __construct(
         protected PimcoreBundleManager $bundleManager,
     ) {
     }
 
+    #[\Override]
     public function collect(): array
     {
         $metrics = [];
@@ -126,7 +127,7 @@ class BundleMetrics implements MetricsCollectorInterface
         return $metrics;
     }
 
-    protected function getShortClassName(string $className): string
+    private function getShortClassName(string $className): string
     {
         if (!class_exists($className)) {
             throw new \InvalidArgumentException(sprintf('Class "%s" does not exist', $className));

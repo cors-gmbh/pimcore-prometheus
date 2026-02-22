@@ -45,3 +45,4 @@ var
 public/bundles
 config/local
 vendor
+supervisord.pid

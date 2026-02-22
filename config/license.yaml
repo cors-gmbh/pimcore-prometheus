@@ -1,0 +1,6 @@
+pimcore:
+    encryption:
+        secret: '%env(PIMCORE_ENCRYPTION_SECRET)%'
+    product_registration:
+        instance_identifier: '4qVzNp956AsKAvKzmGamvn'
+        product_key: '%env(PIMCORE_PRODUCT_KEY)%'

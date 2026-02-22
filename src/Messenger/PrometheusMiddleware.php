@@ -22,7 +22,7 @@ use Symfony\Component\Messenger\Stamp\BusNameStamp;
 use Symfony\Component\Messenger\Stamp\ReceivedStamp;
 use Throwable;
 
-class PrometheusMiddleware implements MiddlewareInterface
+final class PrometheusMiddleware implements MiddlewareInterface
 {
     private CollectorRegistry $collectorRegistry;
 
@@ -61,6 +61,7 @@ class PrometheusMiddleware implements MiddlewareInterface
     /**
      * @throws Throwable
      */
+    #[\Override]
     public function handle(Envelope $envelope, StackInterface $stack): Envelope
     {
         if (null === $envelope->last(ReceivedStamp::class)) {
