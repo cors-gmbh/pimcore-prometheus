@@ -46,3 +46,8 @@ public/bundles
 config/local
 vendor
 supervisord.pid
+######################
+# Harness            #
+######################
+/composer.lock
+/config/reference.php

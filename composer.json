@@ -25,7 +25,7 @@
         "symfony/dotenv": "^6.4 || ^7.4"
     },
     "require-dev": {
-        "cors/dev": "12.x-dev",
+        "coreshop/test-setup": "dev-main",
         "pimcore/admin-ui-classic-bundle": "^2.0"
     },
     "autoload": {
@@ -39,13 +39,6 @@
         ],
         "psr-4": {
             "Pimcore\\Model\\DataObject\\": "var/classes/DataObject"
-        }
-    },
-    "repositories": {
-        "packagist.org": false,
-        "private-packagist": {
-            "type": "composer",
-            "url": "https://repo.packagist.com/cors/"
         }
     },
     "extra": {

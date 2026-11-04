@@ -38,7 +38,7 @@ final class Metric
         return $this->help;
     }
 
-    public function getGaugeValue(): float|int
+    public function getGaugeValue(): float
     {
         return $this->gaugeValue;
     }
