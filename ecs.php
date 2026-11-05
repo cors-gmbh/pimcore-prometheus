@@ -1,15 +1,19 @@
 <?php
 
-declare(strict_types=1);
-
 /*
  * CORS GmbH
  *
- * This software is available under the GNU General Public License version 3 (GPLv3).
+ * This source file is available under the MIT license
+ *
+ * Full copyright and license information is available in
+ * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) CORS GmbH (https://www.cors.gmbh)
- * @license    https://www.cors.gmbh/license GPLv3
+ * @license    https://opensource.org/license/mit MIT
+ *
  */
+
+declare(strict_types=1);
 
 use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
@@ -24,10 +28,14 @@ return static function (ECSConfig $ecsConfig): void {
     $header = <<<EOT
 CORS GmbH
 
-This software is available under the GNU General Public License version 3 (GPLv3).
+This source file is available under the MIT license
+
+Full copyright and license information is available in
+LICENSE.md which is distributed with this source code.
 
 @copyright  Copyright (c) CORS GmbH (https://www.cors.gmbh)
-@license    https://www.cors.gmbh/license GPLv3
+@license    https://opensource.org/license/mit MIT
+ 
 EOT;
 
     $ecsConfig->ruleWithConfiguration(HeaderCommentFixer::class, ['header' => $header]);
