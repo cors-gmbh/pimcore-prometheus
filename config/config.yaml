@@ -3,6 +3,11 @@ imports:
     - { resource: license.yaml }
 
 parameters:
+    # Empty defaults: without a registration Pimcore stops with its own message (see license.yaml)
+    # instead of "Environment variable not found".
+    env(PIMCORE_ENCRYPTION_SECRET): ''
+    env(PIMCORE_PRODUCT_KEY): ''
+
     database_driver: '%env(DATABASE_DRIVER)%'
     database_host: '%env(DATABASE_HOST)%'
     database_port: '%env(DATABASE_PORT)%'

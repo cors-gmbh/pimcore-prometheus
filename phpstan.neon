@@ -1,6 +1,8 @@
+# Public repository: cors/dev (private Packagist) is not reachable from GitHub Actions here,
+# so the shared rule set comes from the public coreshop/test-setup package.
 includes:
-    - vendor/cors/dev/phpstan.neon
+    - vendor/coreshop/test-setup/phpstan.neon
 
 parameters:
-    paths:
-        - src
+    symfony:
+        containerXmlPath: var/cache/dev/KernelDevDebugContainer.xml

@@ -82,3 +82,9 @@ Prometheus\Storage\Adapter:
     arguments:
         $dsn: 'redis://redis:6379'
 ```
+
+The storage only holds what has to outlive a request, like the Messenger counters written by the
+worker processes. The collector metrics (bundles, sites, tables, versions) never go into it: they
+are collected anew for every `/metrics` request, so a bundle update or a dropped table leaves no
+outdated series behind. `cors_pimcore_*` gauges that earlier versions of the bundle wrote into
+Redis are ignored.

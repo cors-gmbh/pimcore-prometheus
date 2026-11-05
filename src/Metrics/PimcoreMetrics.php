@@ -50,10 +50,14 @@ final class PimcoreMetrics implements MetricsCollectorInterface
 
         foreach ($tables as $table) {
             /**
+             * @var string $name
+             */
+            $name = $table['name'];
+            /**
              * @var string $rows
              */
             $rows = $table['rows'];
-            $metrics[] = new Metric('table_' . $table['name'], ['exporter' => 'cors', 'type' => 'pimcore_tables'], 'Table of Pimcore', (int) $rows);
+            $metrics[] = new Metric('table_' . $name, ['exporter' => 'cors', 'type' => 'pimcore_tables'], 'Table of Pimcore', (int) $rows);
         }
 
         return $metrics;
