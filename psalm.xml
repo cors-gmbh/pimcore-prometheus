@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!-- Public repository: cors/dev (private Packagist) is not reachable from GitHub Actions here,
      so the shared issue handlers come from the public coreshop/test-setup package. -->
-<psalm xmlns:xi="http://www.w3.org/2001/XInclude">
+<psalm xmlns:xi="http://www.w3.org/2001/XInclude" findUnusedIssueHandlerSuppression="false">
     <xi:include
             href="vendor/coreshop/test-setup/psalm.xml"
             xpointer="xpointer(/psalm/*[not(self::projectFiles)])"
