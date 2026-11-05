@@ -8,7 +8,7 @@
         "ecommerce"
     ],
     "homepage": "http://www.cors.gmbh",
-    "license": "proprietary",
+    "license": "MIT",
     "authors": [
         {
             "name": "CORS GmbH",

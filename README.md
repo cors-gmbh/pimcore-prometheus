@@ -88,3 +88,7 @@ worker processes. The collector metrics (bundles, sites, tables, versions) never
 are collected anew for every `/metrics` request, so a bundle update or a dropped table leaves no
 outdated series behind. `cors_pimcore_*` gauges that earlier versions of the bundle wrote into
 Redis are ignored.
+
+## License
+
+[MIT](https://opensource.org/license/mit), see [LICENSE.md](LICENSE.md).
