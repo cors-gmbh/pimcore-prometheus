@@ -1,29 +1,59 @@
 name: Static Tests
+
+# ⚠️  ZENTRAL VERWALTETE DATEI — NICHT LOKAL ÄNDERN!
+#
+# Diese Datei wird aus cors-gmbh/shared-workflows-private per File-Sync verteilt
+# (Quelle: templates/harness/static.yaml, Gruppe "Dev-Harness der Bundle-Repos").
+# Lokale Änderungen werden beim nächsten Sync-Lauf per PR überschrieben.
+#
+# Voraussetzungen im Bundle-Repo: Dev-Harness (Kernel.php, bin/console, config/, .env mit
+# DOCKER_PHP_VERSION), ecs.php, phpstan.neon, psalm.xml, var/classes/DataObject/.gitkeep und
+# config/local/.gitkeep im Repo, sowie die Repository-Secrets PIMCORE_ENCRYPTION_SECRET,
+# PIMCORE_INSTANCE_IDENTIFIER und PIMCORE_PRODUCT_KEY (registrierte CI-Instanz, Kennung = Repo-Name).
+#
+# PHPUnit (optional): mit phpunit.xml(.dist) und Tests unter tests/ läuft der Job "PHPUnit" ohne
+# Datenbank; Tests unter tests/Functional laufen zusätzlich gegen eine frisch installierte
+# Pimcore-Instanz (MySQL + OpenSearch) mit PIMCORE_FUNCTIONAL=1. Repos ohne Tests bleiben grün.
+#
+# Abweichende Pfade (z. B. Monorepos mit Bundles unter bundles/) kommen aus Repository-Variablen,
+# die der Sync nie anfasst: ECS_PATHS, PSALM_PATHS, LINT_YAML_PATHS, LINT_TWIG_PATHS
+# (jeweils leerzeichengetrennt). Nicht gesetzt gilt der Default in der Datei.
+# Repos ohne phpstan.neon gehören nicht in die Sync-Gruppe.
+
 on:
   push:
-    branches: [ 11.x ]
-    paths-ignore:
-      - 'docs/**'
-      - '.github/workflows/docs.yaml'
-      - 'README.md'
+    branches: [ '*.x', main ]
   pull_request:
-    branches: [ 11.x ]
-    paths-ignore:
-      - 'docs/**'
-      - '.github/workflows/docs.yaml'
-      - 'README.md'
-  release:
-    types: [ created ]
-    paths-ignore:
-      - 'docs/**'
-      - '.github/workflows/docs.yaml'
-      - 'README.md'
-  schedule:
-    - cron: "0 1 * * 1"
+    branches: [ '*.x', main ]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  static:
-    uses: coreshop/workflow-collection/.github/workflows/static.yml@main
+  test:
+    uses: cors-gmbh/shared-workflows/.github/workflows/php-test.yaml@main
+    with:
+      # single source of truth for the PHP version: DOCKER_PHP_VERSION in .env
+      versions-from-env: true
+      # pimcore stays on: PHPStan and the lints boot the Pimcore kernel, and php-test only writes the
+      # registration from env_local to .env.local when the Pimcore steps are enabled.
+      phpstan: true
+      psalm: true
+      ecs-paths: ${{ vars.ECS_PATHS || 'src' }}
+      psalm-paths: ${{ vars.PSALM_PATHS || 'src' }}
+      lint-yaml-paths: ${{ vars.LINT_YAML_PATHS || 'config src/Resources/config' }}
+      lint-twig-paths: ${{ vars.LINT_TWIG_PATHS || 'templates' }}
+      # PHPUnit: both jobs skip themselves in repos without (functional) tests. Repository
+      # variables PHPUNIT / PHPUNIT_FUNCTIONAL = false switch a job off for one repo.
+      phpunit: ${{ vars.PHPUNIT != 'false' }}
+      phpunit-args: ${{ vars.PHPUNIT_ARGS || '' }}
+      phpunit-functional: ${{ vars.PHPUNIT_FUNCTIONAL != 'false' }}
+      pimcore-install-args: ${{ vars.PIMCORE_INSTALL_ARGS || '--install-profile=App\InstallProfile\StudioInstallProfile' }}
+    secrets:
+      composer_auth: ${{ secrets.COMPOSER_AUTH }}
+      # Pimcore refuses to boot without a registered instance; php-test writes this to .env.local.
+      env_local: |
+        PIMCORE_ENCRYPTION_SECRET=${{ secrets.PIMCORE_ENCRYPTION_SECRET }}
+        PIMCORE_INSTANCE_IDENTIFIER=${{ secrets.PIMCORE_INSTANCE_IDENTIFIER }}
+        PIMCORE_PRODUCT_KEY=${{ secrets.PIMCORE_PRODUCT_KEY }}

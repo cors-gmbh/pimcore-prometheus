@@ -1,0 +1,5 @@
+# Harness only: projects import the bundle routes themselves (see README), so /metrics
+# is never exposed without the project deciding to. config/routes.yaml is synced and
+# must not carry it.
+_cors_prometheus:
+    resource: "@CORSPrometheusBundle/Resources/config/routing.yaml"

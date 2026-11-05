@@ -7,6 +7,8 @@ services:
         autoconfigure: true
         public: false
 
+    # The bundle defaults to in-memory storage, which loses every metric after the request.
+    # The harness uses the dev-compose Redis (password from its --requirepass), as a project would.
     Prometheus\Storage\Adapter:
         factory: [ 'CORS\Bundle\PrometheusBundle\StorageFactory', 'create' ]
         arguments:
