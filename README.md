@@ -42,10 +42,9 @@ own, so the endpoint only exists in projects that import it.
 
 ## 4. Configure a storage
 
-The bundle defaults to `Prometheus\Storage\InMemory`. That is enough for the metrics collected
-during the `/metrics` request itself (bundles, sites, tables), but the Messenger counters are
-written by the worker processes and are lost with them. Point the storage at a Redis instance
-shared by the web and the worker containers:
+The storage holds what has to outlive a request: the Messenger counters, written by the worker
+processes. The bundle defaults to `Prometheus\Storage\InMemory`, which loses them with every
+worker. Point the storage at a Redis instance shared by the web and the worker containers:
 
 ```yaml
 # config/services.yaml
@@ -58,6 +57,11 @@ services:
 
 `StorageFactory` accepts `redis:` DSNs only (anything Symfony's `RedisAdapter` understands,
 e.g. `redis://redis:6379?auth=password`) and prefixes all keys with `prom_`.
+
+The collector metrics (bundles, sites, tables, versions) never go into the storage. They are
+collected anew for every `/metrics` request, so a bundle update or a dropped table leaves no
+outdated series behind. `cors_pimcore_*` gauges that earlier versions of the bundle wrote into
+Redis are ignored.
 
 # Access control
 
